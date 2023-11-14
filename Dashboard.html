@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+          
+        <div class="logo">
+             <h1>Auth System</h1>
+        </div>
+
+        <ul class="nav-links">
+             <a href="./index.html">Signup</a>
+             <a href="./login.html">Login</a>
+             <a href="./dashboard.html">Dashboard</a>
+        </ul>
+     
+
+
+</nav>
+
+
+     <script>
+           let userJson = localStorage.getItem("user");
+           let user = JSON.parse(userJson);
+           let welcomeHeading = document.querySelector("h1");
+           welcomeHeading.innerHTML = `Welcome ${user.name}`;
+           document.body.appendChild(welcomeHeading);
+     </script>
+</body>
+</html>

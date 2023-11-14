@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Document</title>
+</head>
+<body>
+    <nav class="navbar">
+          
+        <div class="logo">
+             <h1>Auth System</h1>
+        </div>
+
+        <ul class="nav-links">
+             <a href="./index.html">Signup</a>
+             <a href="./login.html">Login</a>
+             <a href="./dashboard.html">Dashboard</a>
+        </ul>
+     
+
+</nav>
+
+     <form class="login-form">
+            <input type="email" placeholder="Enter Your Email" id="login-email" value="theabhishek.srm@gmail.com">
+            <input type="password" placeholder="Enter Your Password" id="login-password" value="123456">
+            <button type="submit">Login</button>
+     </form>
+
+     <script>
+          const inputForm = document.querySelector('.login-form');
+          const emailBox = document.querySelector('#login-email');
+          const passwordBox = document.querySelector('#login-password');
+
+          inputForm.addEventListener("submit", loginUser);
+
+          function loginUser(e){
+               e.preventDefault();
+               
+                const email = emailBox.value;
+                const password = passwordBox.value;
+               
+
+                // validations:
+                if(email === "" || password === ""){
+                     alert("Please fill all the fields");
+                }
+                else if(email.includes("@")==false || email.includes(".")==false){
+                     alert("Please enter a valid email");
+                }
+          
+                else{
+                    fetch("https://instagram-express-app.vercel.app/api/auth/login",{
+                        method: "POST",
+                        
+                        headers:{
+                            "Content-Type": "application/json"
+                        },
+                        
+
+                        body: JSON.stringify({
+                            email,
+                            password
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(info => {
+                        console.log(info);
+                        // create an element: 
+                        const divSuccess = document.createElement("div");
+                        divSuccess.classList.add("success");
+                        divSuccess.innerText = info.message;
+                        document.body.appendChild(divSuccess);
+
+                        // add data to local storage:
+                        localStorage.setItem("user", JSON.stringify(info.data));
+
+                        alert("Login Successful")
+                        //naviagte to Dashboard
+                        window.location.href = "./dashboard.html";
+                    })
+                    .catch(err => console.log(err))
+                }
+          
+            }
+
+     </script>
+</body>
+</html>
