@@ -28,6 +28,13 @@
      <script>
            let userJson = localStorage.getItem("user");
            let user = JSON.parse(userJson);
+           
+
+
+           if(!userJson || !user){
+                window.location.href = "./login.html";
+           }
+
            let welcomeHeading = document.querySelector("h1");
            welcomeHeading.innerHTML = `Welcome ${user.name}`;
            document.body.appendChild(welcomeHeading);

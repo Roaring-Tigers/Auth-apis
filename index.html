@@ -42,6 +42,15 @@
           inputForm.addEventListener("submit", registerUser);
 
 
+          // get value from local storage: check if already logged in
+          let userJson = localStorage.getItem("user");
+                let user = JSON.parse(userJson);
+
+                if(userJson || user){
+                    window.location.href = "./dashboard.html";
+                }
+
+
 
           function registerUser(e){
                e.preventDefault();
@@ -70,7 +79,6 @@
                             "Content-Type": "application/json"
                         },
                         
-
                         body: JSON.stringify({
                             name,
                             email,
@@ -80,8 +88,14 @@
                     .then(res => res.json())
                     .then(data => {
                         console.log(data);
+                        
+                        //naviagte to Dashboard
+                        // add data to local storage:
+                        localStorage.setItem("user", JSON.stringify(info.data));
+
                         alert("Signup Successful")
                         //naviagte to Dashboard
+                        
                         window.location.href = "./dashboard.html";
                     })
                     .catch(err => console.log(err))
