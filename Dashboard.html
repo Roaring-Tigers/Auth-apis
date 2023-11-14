@@ -17,6 +17,7 @@
              <a href="./index.html">Signup</a>
              <a href="./login.html">Login</a>
              <a href="./dashboard.html">Dashboard</a>
+             <button id="logout"> Logout </button>
         </ul>
      
 
@@ -30,6 +31,48 @@
            let welcomeHeading = document.querySelector("h1");
            welcomeHeading.innerHTML = `Welcome ${user.name}`;
            document.body.appendChild(welcomeHeading);
+
+           function implementZuku(){
+                fetch("https://instagram-express-app.vercel.app/api/auth/zuku",{
+                    method:"GET",
+                    headers:{
+                        "authorization" : `Bearer ${user.token}`
+                    }
+                })
+                .then((res)=>res.json())
+                .then((info)=>{
+                    console.log(info.data.message);
+                    let zuku = document.createElement("p");
+                    zuku.innerHTML = info.data.message;
+                    document.body.appendChild(zuku)
+                })
+                .catch((err)=>{
+                    console.log(err);
+                })
+           }
+           implementZuku()
+
+              let logoutBtn = document.querySelector("#logout");
+              logoutBtn.addEventListener("click", implementLogout);
+
+              function implementLogout(){
+                    fetch("https://instagram-express-app.vercel.app/api/auth/logout",{
+                        method:"DELETE",
+                        headers:{
+                            "authorization" : `Bearer ${user.token}`
+                        }
+                    })
+                    .then((res)=>res.json())
+                    .then((info)=>{
+                        console.log(info);
+                        localStorage.removeItem("user");
+                        alert("Logout Successful")
+                        window.location.href = "./login.html";
+                    })
+                    .catch((err)=>{
+                        console.log(err);
+                    })
+              }
      </script>
 </body>
 </html>
